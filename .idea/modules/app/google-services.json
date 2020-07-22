@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "203187150426",
+    "firebase_url": "https://home-monitor-d6760.firebaseio.com",
+    "project_id": "home-monitor-d6760",
+    "storage_bucket": "home-monitor-d6760.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203187150426:android:6791af06d6c46b2fc68263",
+        "android_client_info": {
+          "package_name": "com.aze.homemonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203187150426-6jkst1ohulf8gn7j70pfkrrvdeu29012.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aze.homemonitor",
+            "certificate_hash": "d30366a047211b028675c555cf8e5ea2a7f8e562"
+          }
+        },
+        {
+          "client_id": "203187150426-dsetn6ii91kltpnjcoh79iiv4vhcino9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtI_1HqbWOftQ_Op8qen8xMBaX6zedepM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203187150426-dsetn6ii91kltpnjcoh79iiv4vhcino9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
