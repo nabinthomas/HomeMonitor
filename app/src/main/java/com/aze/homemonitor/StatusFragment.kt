@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.aze.homemonitor.ui.login.LoginViewModel
+import com.aze.homemonitor.ui.login.LoginViewModelFactory
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.*
 
 
 class StatusFragment : Fragment() {
-
     var temperatureTextView: TextView? = null
 
     var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
@@ -43,10 +45,14 @@ class StatusFragment : Fragment() {
                 }
             }
         )
+
+
         return rootview
     }
 
     fun updateTemperature(temperature: Int){
         temperatureTextView?.setText(Integer.toString(temperature))
     }
+
+
 }

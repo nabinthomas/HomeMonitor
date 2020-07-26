@@ -64,12 +64,14 @@ class MainActivity : AppCompatActivity() {
             menu?.findItem(R.id.statusMenu)?.setVisible(true)
             menu?.findItem(R.id.settingsMenu)?.setVisible(true)
             menu?.findItem(R.id.logoutMenu)?.setVisible(true)
+            menu?.findItem(R.id.logoutMenu)?.setTitle("Logout " + currentuser?.email)
         }
         else
         {
             menu?.findItem(R.id.statusMenu)?.setVisible(false)
             menu?.findItem(R.id.settingsMenu)?.setVisible(false)
             menu?.findItem(R.id.logoutMenu)?.setVisible(false)
+            menu?.findItem(R.id.logoutMenu)?.setTitle("Logout ")
         }
 
         return super.onPrepareOptionsMenu(menu)
