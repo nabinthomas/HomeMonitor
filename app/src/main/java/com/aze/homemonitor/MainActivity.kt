@@ -1,13 +1,16 @@
 package com.aze.homemonitor
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         currentuser = null
         setContentView(R.layout.activity_main)
+        setupFakeNotifications()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -90,4 +94,20 @@ class MainActivity : AppCompatActivity() {
     fun setUser(user: FirebaseUser?){
         currentuser = user
     }
+
+    fun setupFakeNotifications(){
+        var t = object : CountDownTimer(Long.MAX_VALUE, 5000) {
+            // This is called every interval. (Every 10 seconds in this example)
+            override fun onTick(millisUntilFinished: Long) {
+                Log.d("FakeNotification", "Timer tick")
+            }
+
+            override fun onFinish() {
+                Log.d("FakeNotification","Timer last tick")
+                start()
+            }
+        }.start()
+    }
+
+
 }
