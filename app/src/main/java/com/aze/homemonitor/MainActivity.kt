@@ -6,20 +6,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.aze.homemonitor.ui.login.LoginViewModel
-import com.aze.homemonitor.ui.login.LoginViewModelFactory
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
-import java.security.SecureRandom
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.random.Random
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -136,7 +129,7 @@ class MainActivity : AppCompatActivity() {
 
                 //val randomInteger = SecureRandom().nextInt(120)// (32..120).shuffled().first()
                 val randomInteger = (32..120).shuffled().first()
-                homeMonitorLiveData?.temperature?.setValue(randomInteger)
+                homeMonitorLiveData?.temperature?.postValue(randomInteger)
                 Log.d(TAGFAKENOTIFICATION, "Timer tick "  + randomInteger)
             }
 
