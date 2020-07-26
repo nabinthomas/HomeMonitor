@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
             }
     }
-    
+
     fun setUser(user: FirebaseUser?){
         currentuser = user
     }
