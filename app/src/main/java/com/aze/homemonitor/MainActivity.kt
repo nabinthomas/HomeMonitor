@@ -5,13 +5,21 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseUser
 
 class MainActivity : AppCompatActivity() {
+
+    private  var currentuser: FirebaseUser? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        currentuser = null
         setContentView(R.layout.activity_main)
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -38,25 +46,60 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.statusMenu)?.setVisible(true)
-        menu?.findItem(R.id.settingsMenu)?.setVisible(true)
-        menu?.findItem(R.id.logoutMenu)?.setVisible(false)
+
+        if (currentuser != null)
+        {
+            menu?.findItem(R.id.statusMenu)?.setVisible(true)
+            menu?.findItem(R.id.settingsMenu)?.setVisible(true)
+            menu?.findItem(R.id.logoutMenu)?.setVisible(true)
+        }
+        else
+        {
+            menu?.findItem(R.id.statusMenu)?.setVisible(false)
+            menu?.findItem(R.id.settingsMenu)?.setVisible(false)
+            menu?.findItem(R.id.logoutMenu)?.setVisible(false)
+        }
 
         return super.onPrepareOptionsMenu(menu)
     }
-    fun showStatus() {
-        findNavController(R.id.nav_host_fragment).navigate(R.id.statusFragment)
 
-        invalidateOptionsMenu()
+    fun showStatus() {
+        if (currentuser != null) {
+            invalidateOptionsMenu()
+            findNavController(R.id.nav_host_fragment).navigate(R.id.statusFragment)
+        }
+        else {
+            // showLogin()
+        }
     }
 
     fun showSettings() {
-        findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
-        invalidateOptionsMenu()
+        if (currentuser != null) {
+            invalidateOptionsMenu()
+            findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
+
+        }
+        else {
+            // showLogin()
+        }
     }
 
     fun logout() {
+        AuthUI.getInstance().signOut(this)
+            .addOnCompleteListener {
+                setUser(null)
+                invalidateOptionsMenu()
+                findNavController(R.id.nav_host_fragment).navigate(R.id.loginFragment)
+
+            }
+    }
+
+    fun showLogin() {
         findNavController(R.id.nav_host_fragment).navigate(R.id.loginFragment)
         invalidateOptionsMenu()
+    }
+
+    fun setUser(user: FirebaseUser?){
+        currentuser = user
     }
 }
