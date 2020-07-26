@@ -62,9 +62,10 @@ class LoginFragment : Fragment() {
                 // This is where you can provide more ways for users to register and
                 // sign in.
             )
+
             startActivityForResult(
                 AuthUI.getInstance()
-                    .createSignInIntentBuilder()
+                    .createSignInIntentBuilder().setIsSmartLockEnabled(false)
                     .setAvailableProviders(providers)
                     .build(),
                 Companion.SIGN_IN_RESULT_CODE
@@ -95,7 +96,7 @@ class LoginFragment : Fragment() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
                 // User successfully signed in
-                Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!")
+                Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.email}!")
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
