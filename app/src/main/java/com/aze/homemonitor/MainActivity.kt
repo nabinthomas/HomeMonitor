@@ -112,7 +112,14 @@ class MainActivity : AppCompatActivity() {
                 object: Observer<Int> {
                     override fun onChanged(t: Int) {
                         Log.d(TAG, "temperature " + t)
-                        statusFragment?.updateTemperature(t)
+                    }
+                }
+            )
+
+            homeMonitorLiveData!!.humidity.observe(this,
+                object: Observer<Int> {
+                    override fun onChanged(t: Int) {
+                        Log.d(TAG, "humidity " + t)
                     }
                 }
             )
@@ -132,11 +139,28 @@ class MainActivity : AppCompatActivity() {
                 //val randomInteger = SecureRandom().nextInt(120)// (32..120).shuffled().first()
                 val randomInteger = (32..120).shuffled().first()
                 homeMonitorLiveData?.temperature?.postValue(randomInteger)
-                Log.d(TAGFAKENOTIFICATION, "Timer tick "  + randomInteger)
+                Log.d(TAGFAKENOTIFICATION, "TimerT tick "  + randomInteger)
             }
 
             override fun onFinish() {
-                Log.d(TAGFAKENOTIFICATION,"Timer last tick")
+                Log.d(TAGFAKENOTIFICATION,"TimerT last tick")
+                start()
+            }
+        }.start()
+
+
+        var h = object : CountDownTimer(Long.MAX_VALUE, 5000) {
+            // This is called every interval. (Every 10 seconds in this example)
+            override fun onTick(millisUntilFinished: Long) {
+
+                //val randomInteger = SecureRandom().nextInt(120)// (32..120).shuffled().first()
+                val randomInteger = (0..100).shuffled().first()
+                homeMonitorLiveData?.humidity?.postValue(randomInteger)
+                Log.d(TAGFAKENOTIFICATION, "TimerH tick "  + randomInteger)
+            }
+
+            override fun onFinish() {
+                Log.d(TAGFAKENOTIFICATION,"TimerH last tick")
                 start()
             }
         }.start()

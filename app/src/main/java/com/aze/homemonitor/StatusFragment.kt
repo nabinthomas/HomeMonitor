@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.*
 
 class StatusFragment : Fragment() {
     var temperatureTextView: TextView? = null
+    var humidityTextView: TextView? = null
 
     var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
 
@@ -32,6 +33,7 @@ class StatusFragment : Fragment() {
         var rootview : View = inflater.inflate(R.layout.fragment_status, container, false)
 
         temperatureTextView = rootview.findViewById(R.id.temperatureTextView)
+        humidityTextView = rootview.findViewById(R.id.humidityTextView)
 
         activity?.let {
             homeMonitorLiveData = ViewModelProviders.of(it).get(HomeMonitorLiveDataModel::class.java)
@@ -46,6 +48,14 @@ class StatusFragment : Fragment() {
             }
         )
 
+        homeMonitorLiveData!!.humidity.observe(this,
+            object: Observer<Int> {
+                override fun onChanged(t: Int) {
+                    Log.d(MainActivity.TAG, " Fragment humidity " + t)
+                    updateHumidity(t)
+                }
+            }
+        )
 
         return rootview
     }
@@ -54,5 +64,8 @@ class StatusFragment : Fragment() {
         temperatureTextView?.setText(Integer.toString(temperature))
     }
 
+    fun updateHumidity(humidity: Int){
+        humidityTextView?.setText(Integer.toString(humidity))
+    }
 
 }
