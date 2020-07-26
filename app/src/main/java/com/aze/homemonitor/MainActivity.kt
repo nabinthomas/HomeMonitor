@@ -68,9 +68,6 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
             findNavController(R.id.nav_host_fragment).navigate(R.id.statusFragment)
         }
-        else {
-            // showLogin()
-        }
     }
 
     fun showSettings() {
@@ -78,9 +75,6 @@ class MainActivity : AppCompatActivity() {
             invalidateOptionsMenu()
             findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
 
-        }
-        else {
-            // showLogin()
         }
     }
 
@@ -93,12 +87,7 @@ class MainActivity : AppCompatActivity() {
 
             }
     }
-
-    fun showLogin() {
-        findNavController(R.id.nav_host_fragment).navigate(R.id.loginFragment)
-        invalidateOptionsMenu()
-    }
-
+    
     fun setUser(user: FirebaseUser?){
         currentuser = user
     }
