@@ -1,5 +1,9 @@
 package com.aze.homemonitor
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -14,23 +18,31 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
 
 
-
 class MainActivity : AppCompatActivity() {
 
     private var currentuser: FirebaseUser? = null
 
     private var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
 
-    public var statusFragment: StatusFragment? = null;
+    public var statusFragment: StatusFragment? = null
+
+    private var receiver: NTBroadcastReceiver ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentuser = null
         setContentView(R.layout.activity_main)
-        setupFakeNotifications()
+
+        receiver = NTBroadcastReceiver()
+        receiver!!.init(this)
+
+        registerReceiver(receiver, IntentFilter("com.aze.homemonitor.STATUS_NOTIFICATION"))
+
+        // setupFakeNotifications()
 
 
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
