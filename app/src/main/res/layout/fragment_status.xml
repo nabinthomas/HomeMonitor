@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/motionEventText"
+            android:id="@+id/motionEventTextView"
             android:layout_width="161dp"
             android:layout_height="65dp"
             android:layout_marginStart="10dp"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
 
         <TextView
-            android:id="@+id/soundDetectionText"
+            android:id="@+id/soundDetectionTextView"
             android:layout_width="273dp"
             android:layout_height="101dp"
             android:layout_marginStart="10dp"
@@ -76,17 +76,17 @@
             android:gravity="center|center_horizontal|center_vertical"
             android:text="No Sound Detected"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/motionEventText" />
+            app:layout_constraintTop_toBottomOf="@+id/motionEventTextView" />
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_media_play"
-            app:layout_constraintBottom_toBottomOf="@+id/soundDetectionText"
+            app:layout_constraintBottom_toBottomOf="@+id/soundDetectionTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/soundDetectionText"
-            app:layout_constraintTop_toTopOf="@+id/soundDetectionText" />
+            app:layout_constraintStart_toEndOf="@+id/soundDetectionTextView"
+            app:layout_constraintTop_toTopOf="@+id/soundDetectionTextView" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -96,7 +96,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/soundDetectionText"
+            app:layout_constraintTop_toBottomOf="@+id/soundDetectionTextView"
             app:layout_constraintVertical_bias="0.657" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

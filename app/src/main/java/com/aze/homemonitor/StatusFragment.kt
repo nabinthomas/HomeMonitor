@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.aze.homemonitor.ui.login.LoginViewModel
-import com.aze.homemonitor.ui.login.LoginViewModelFactory
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.fragment_status.*
 
 
 class StatusFragment : Fragment() {
     var temperatureTextView: TextView? = null
     var humidityTextView: TextView? = null
+    var motionEventTextView : TextView? = null
+    var soundDetectionTextView : TextView? = null
 
     var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
 
@@ -34,6 +33,8 @@ class StatusFragment : Fragment() {
 
         temperatureTextView = rootview.findViewById(R.id.temperatureTextView)
         humidityTextView = rootview.findViewById(R.id.humidityTextView)
+        motionEventTextView = rootview.findViewById(R.id.motionEventTextView)
+        soundDetectionTextView = rootview.findViewById(R.id.soundDetectionTextView)
 
         activity?.let {
             homeMonitorLiveData = ViewModelProviders.of(it).get(HomeMonitorLiveDataModel::class.java)
@@ -57,6 +58,23 @@ class StatusFragment : Fragment() {
             }
         )
 
+        homeMonitorLiveData!!.lastMotionDetected.observe(this,
+            object: Observer<String> {
+                override fun onChanged(t: String) {
+                    Log.d(MainActivity.TAG, " Fragment lastMotionDetected " + t)
+                    updateLastMotionDetected(t)
+                }
+            }
+        )
+        homeMonitorLiveData!!.lastSoundDetected.observe(this,
+            object: Observer<String> {
+                override fun onChanged(t: String) {
+                    Log.d(MainActivity.TAG, " Fragment lastSoundDetected " + t)
+                    updateLastSoundDetected(t)
+                }
+            }
+        )
+
         return rootview
     }
 
@@ -66,6 +84,14 @@ class StatusFragment : Fragment() {
 
     fun updateHumidity(humidity: Int){
         humidityTextView?.setText(Integer.toString(humidity))
+    }
+
+    fun updateLastMotionDetected(time: String){
+        motionEventTextView?.setText("Movement Detected @ "  + time)
+    }
+
+    fun updateLastSoundDetected(time: String){
+        soundDetectionTextView?.setText("Sound Detected @ "  + time)
     }
 
 }

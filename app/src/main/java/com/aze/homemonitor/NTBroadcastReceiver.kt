@@ -29,9 +29,13 @@ class NTBroadcastReceiver : BroadcastReceiver() {
 
                 var temperature = statusJson.get("temperature")
                 var humidity = statusJson.get("humidity")
+                var lastMotionDetected = statusJson.get("lastMotionDetected")
+                var lastSoundDetected = statusJson.get("lastSoundDetected")
 
                 homeMonitorLiveData?.temperature?.postValue(temperature as Int?)
                 homeMonitorLiveData?.humidity?.postValue(humidity as Int?)
+                homeMonitorLiveData?.lastMotionDetected?.postValue(lastMotionDetected as String?)
+                homeMonitorLiveData?.lastSoundDetected?.postValue(lastSoundDetected as String?)
             }
         } catch (e: Exception) {
             e.printStackTrace()
