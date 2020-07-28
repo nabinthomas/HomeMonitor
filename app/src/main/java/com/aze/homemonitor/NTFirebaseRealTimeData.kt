@@ -261,6 +261,9 @@ class NTFirebaseRealTimeData{
                                 var newUser = UserState()
                                 newUser.email = email
 
+                                // Get the firebase token and add it here too
+
+
                                 database.child("users").push().setValue(newUser);
 
                             }

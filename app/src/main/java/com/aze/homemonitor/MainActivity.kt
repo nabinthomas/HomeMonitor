@@ -77,9 +77,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.logoutMenu -> {
-                // logout()
-                val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
-                notificationManager.sendNotification("Test Message on Logout", applicationContext)
+                logout()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -138,8 +136,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.createChannel(getString(R.string.notification_channel_id), getString(R.string.notification_channel_name))
         viewModel.fetchTokens()
-        viewModel.createChannel(getString(R.string.fcm_notification_channel_ID), getString(R.string.fcm_notification_channel_name))
-        viewModel.subscribeTopic()
+        // viewModel.createChannel(getString(R.string.fcm_notification_channel_ID), getString(R.string.fcm_notification_channel_name))
+        // viewModel.subscribeTopic()
 
         if (user != null){
             homeMonitorLiveData = ViewModelProviders.of(this)
