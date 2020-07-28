@@ -46,6 +46,10 @@ class NTFirebaseRealTimeData{
                     homeMonitorLiveData?.tempMinValue?.postValue((userState?.getValue<UserState>() as UserState).temperatureMinValue)
                     // 7. Temperature max range
                     homeMonitorLiveData?.tempMaxValue?.postValue((userState?.getValue<UserState>() as UserState).temperatureMaxValue)
+                    // 8. Current Temperature
+                    homeMonitorLiveData?.temperature?.postValue((userState?.getValue<UserState>() as UserState).temperature)
+                    // 9. Current Humidity
+                    homeMonitorLiveData?.humidity?.postValue((userState?.getValue<UserState>() as UserState).humidity)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {

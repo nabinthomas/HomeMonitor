@@ -12,5 +12,7 @@ class UserState {
     var humidityMaxValue: Int? = 100
     var temperatureMinValue : Int? = 0
     var temperatureMaxValue : Int? = 120
+    var temperature : Int? = 0
+    var humidity : Int? = 0
 
 }
