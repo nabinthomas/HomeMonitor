@@ -180,8 +180,8 @@ class MainActivity : AppCompatActivity() {
                     val token = task.result?.token
 
                     // Log and toast
-                    Log.d(TAG, token)
-                    Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+                    // Log.d(TAG, token)
+                     // Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
                     homeMonitorLiveData?.deviceToken?.postValue(token)
                 })
         }
