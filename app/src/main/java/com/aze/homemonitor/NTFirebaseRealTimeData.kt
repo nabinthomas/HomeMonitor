@@ -245,6 +245,31 @@ class NTFirebaseRealTimeData{
                 }
             }
         )
+
+        // 5. Device Registration Token
+        homeMonitorLiveData!!.deviceToken.observe(mainActivity,
+            object: Observer<String> {
+                override fun onChanged(value: String) {
+                    Log.d(TAG, "Current Device Token  " + value)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("deviceToken").setValue(value)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
     }
 
 }

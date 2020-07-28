@@ -7,12 +7,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.iid.FirebaseInstanceId
 
 
 class MainActivity : AppCompatActivity() {
@@ -106,6 +109,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun logout() {
+        homeMonitorLiveData?.deviceToken?.postValue("")
+
         AuthUI.getInstance().signOut(this)
             .addOnCompleteListener {
                 setUser(null)
@@ -163,6 +168,22 @@ class MainActivity : AppCompatActivity() {
         if (currentuser != null) {
             homeMonitorLiveData?.userEmail!!.postValue(currentuser?.email)
             ntFireBaseRealtimeData?.connectFor(this, currentuser?.email)
+
+            FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+
+                    // Get new Instance ID token
+                    val token = task.result?.token
+
+                    // Log and toast
+                    Log.d(TAG, token)
+                    Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+                    homeMonitorLiveData?.deviceToken?.postValue(token)
+                })
         }
         else {
            homeMonitorLiveData?.userEmail?.postValue("")

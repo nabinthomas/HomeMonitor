@@ -17,6 +17,7 @@ class HomeMonitorLiveDataModel : ViewModel() {
     val humidityMaxValue = MutableLiveData<Int>()
     val enableMotionSensor = MutableLiveData<Boolean>()
     val enableSoundSensor = MutableLiveData<Boolean>()
+    val deviceToken = MutableLiveData<String>()
 }
 
 

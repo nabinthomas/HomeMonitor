@@ -12,7 +12,6 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
         private const val TAG = "NTFirebaseMessagingService"
     }
 
-
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // ...
 
@@ -53,6 +52,10 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        // sendRegistrationToServer(token)
+        sendRegistrationToServer(token)
+    }
+
+    fun sendRegistrationToServer(token: String) {
+        Log.d(TAG, "Sending Token to Server : $token")
     }
 }
