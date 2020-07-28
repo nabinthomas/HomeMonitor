@@ -6,4 +6,5 @@ import com.google.firebase.database.IgnoreExtraProperties
 class UserState {
     var email: String? = null
     var alarmState : Boolean? = false
+    var enableSoundSensor : Boolean? = false
 }

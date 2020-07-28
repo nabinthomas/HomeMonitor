@@ -24,13 +24,17 @@ class NTFirebaseRealTimeData{
         homeMonitorLiveData = ViewModelProviders.of(mainActivity)
             .get(HomeMonitorLiveDataModel::class.java)
 
+        // Wire Up from Database to UI
         val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
         val stateChangelistener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (userState in dataSnapshot.children) {
                     Log.d(TAG, "Data is " + userState.getValue().toString())
                     // post this data  to the Live data
+                    // 1. Alarm Status
                     homeMonitorLiveData?.alarmStatus?.postValue((userState?.getValue<UserState>() as UserState).alarmState)
+                    // 2. Sound Sensor
+                    homeMonitorLiveData?.enableSoundSensor?.postValue((userState?.getValue<UserState>() as UserState).enableSoundSensor)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
@@ -41,6 +45,8 @@ class NTFirebaseRealTimeData{
         }
         query.addValueEventListener(stateChangelistener)
 
+        // Wire Up from UI to Database
+        // 1. Alarm Status
         homeMonitorLiveData!!.alarmStatus.observe(mainActivity,
             object: Observer<Boolean> {
                 override fun onChanged(status: Boolean) {
@@ -52,6 +58,30 @@ class NTFirebaseRealTimeData{
                                 Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
                                 // set the new value
                                 database.child("users").child(userState.key!!).child("alarmState").setValue(status)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
+        // 2. Sound Sensor
+        homeMonitorLiveData!!.enableSoundSensor.observe(mainActivity,
+            object: Observer<Boolean> {
+                override fun onChanged(status: Boolean) {
+                    Log.d(TAG, "Current SoundSensor Status " + status)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("enableSoundSensor").setValue(status)
                             }
                         }
                         override fun onCancelled(databaseError: DatabaseError) {

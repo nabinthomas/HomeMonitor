@@ -165,7 +165,7 @@ class SettingsFragment : Fragment() {
         )
         motionSensorSwitch?.setOnClickListener {
 
-            Log.d(MainActivity.TAG, "Switch is + " + (it as Switch).isChecked)
+            Log.d(TAG, "Switch is + " + (it as Switch).isChecked)
             this.homeMonitorLiveData?.enableMotionSensor?.postValue((it as Switch).isChecked)
         }
 
@@ -180,7 +180,7 @@ class SettingsFragment : Fragment() {
         )
         soundSensorSwitch?.setOnClickListener {
 
-            Log.d(MainActivity.TAG, "Switch is + " + (it as Switch).isChecked)
+            Log.d(TAG, "Switch is + " + (it as Switch).isChecked)
             this.homeMonitorLiveData?.enableSoundSensor?.postValue((it as Switch).isChecked)
         }
 
