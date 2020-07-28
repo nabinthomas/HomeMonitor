@@ -254,6 +254,16 @@ class NTFirebaseRealTimeData{
                     val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
                     val stateChangelistener = object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.children.count() == 0)
+                            {
+                                // This is the first time login for the user.
+                                // Create this entry
+                                var newUser = UserState()
+                                newUser.email = email
+
+                                database.child("users").push().setValue(newUser);
+
+                            }
                             for (userState in dataSnapshot.children) {
                                 Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
                                 // set the new value

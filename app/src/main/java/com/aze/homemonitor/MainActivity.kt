@@ -1,5 +1,9 @@
 package com.aze.homemonitor
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,8 +11,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -67,6 +72,8 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.logoutMenu -> {
                 logout()
+                val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
+                notificationManager.sendNotification("Test Message on Logout", applicationContext)
                 true
             }
             else -> super.onOptionsItemSelected(item)

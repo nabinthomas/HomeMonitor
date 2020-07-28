@@ -1,7 +1,12 @@
 package com.aze.homemonitor
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -33,7 +38,9 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
             val intent = Intent()
             intent.action = "com.aze.homemonitor.STATUS_NOTIFICATION"
             intent.putExtra("HomeMonitorStatusUpdateJson", remoteMessage.notification!!.body.toString())
-            sendBroadcast(intent)
+            //sendBroadcast(intent)
+            val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
+            notificationManager.sendNotification("REceived Alert !!!!", applicationContext)
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -53,9 +60,28 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         sendRegistrationToServer(token)
+        createNotificationChannel()
+
     }
 
     fun sendRegistrationToServer(token: String) {
         Log.d(TAG, "Sending Token to Server : $token")
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.notification_channel_id)
+            val descriptionText = "Notifications for Home Monitor"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel (name, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }

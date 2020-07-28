@@ -90,7 +90,6 @@ class StatusFragment : Fragment() {
             object: Observer<String> {
                 override fun onChanged(email: String) {
                     Log.d(MainActivity.TAG, " Fragment user Email " + email)
-                    registerForAlarmStatusChange(email)
                 }
             }
         )
@@ -123,9 +122,5 @@ class StatusFragment : Fragment() {
     }
     fun updateAlarmStatus(alarmStatus: Boolean){
         alarmSwitch?.isChecked = alarmStatus
-    }
-
-    fun registerForAlarmStatusChange(email: String) {
-
     }
 }
