@@ -14,5 +14,7 @@ class UserState {
     var temperatureMaxValue : Int? = 120
     var temperature : Int? = 0
     var humidity : Int? = 0
+    var lastMotionDetected : String? = "Unknown"
+    var lastSoundDetected : String? = "Unknown"
 
 }

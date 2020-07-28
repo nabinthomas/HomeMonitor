@@ -58,6 +58,10 @@ class NTFirebaseRealTimeData{
                     homeMonitorLiveData?.temperature?.postValue((userState?.getValue<UserState>() as UserState).temperature)
                     // 9. Current Humidity
                     homeMonitorLiveData?.humidity?.postValue((userState?.getValue<UserState>() as UserState).humidity)
+                    // 10. Last Motion Detected
+                    homeMonitorLiveData?.lastMotionDetected?.postValue((userState?.getValue<UserState>() as UserState).lastMotionDetected)
+                    // 11. Last Sound Detected
+                    homeMonitorLiveData?.lastSoundDetected?.postValue((userState?.getValue<UserState>() as UserState).lastSoundDetected)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
