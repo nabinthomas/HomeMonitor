@@ -1,8 +1,5 @@
 package com.aze.homemonitor
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -28,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     private var receiver: NTBroadcastReceiver ? = null
 
+    private var ntFileBaseRealtimeData: NTFirebaseRealTimeData ? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentuser = null
@@ -37,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         receiver!!.init(this)
 
         registerReceiver(receiver, IntentFilter("com.aze.homemonitor.STATUS_NOTIFICATION"))
+
+        ntFileBaseRealtimeData = NTFirebaseRealTimeData()
 
         // setupFakeNotifications()
 
@@ -160,6 +161,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeMonitorLiveData!!.userEmail.postValue(currentuser?.email)
+        ntFileBaseRealtimeData?.connectFor(this, currentuser?.email)
+
 
     }
 
