@@ -117,8 +117,6 @@ class StatusFragment : Fragment() {
 
     fun updateLastSoundDetected(time: String){
         soundDetectionTextView?.setText("Sound Detected @ "  + time)
-        alarmSwitch?.isChecked = !alarmSwitch?.isChecked!!
-
     }
     fun updateAlarmStatus(alarmStatus: Boolean){
         alarmSwitch?.isChecked = alarmStatus

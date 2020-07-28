@@ -71,10 +71,10 @@
             android:id="@+id/soundDetectionTextView"
             android:layout_width="273dp"
             android:layout_height="101dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:gravity="center|center_horizontal|center_vertical"
             android:text="No Sound Detected"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/motionEventTextView" />
 
@@ -83,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_media_play"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/soundDetectionTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/soundDetectionTextView"
