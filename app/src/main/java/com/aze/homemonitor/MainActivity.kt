@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private var receiver: NTBroadcastReceiver ? = null
 
-    private var ntFileBaseRealtimeData: NTFirebaseRealTimeData ? = null
+    private var ntFireBaseRealtimeData: NTFirebaseRealTimeData ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(receiver, IntentFilter("com.aze.homemonitor.STATUS_NOTIFICATION"))
 
-        ntFileBaseRealtimeData = NTFirebaseRealTimeData()
+        ntFireBaseRealtimeData = NTFirebaseRealTimeData()
 
         // setupFakeNotifications()
 
@@ -160,9 +160,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        homeMonitorLiveData!!.userEmail.postValue(currentuser?.email)
-        ntFileBaseRealtimeData?.connectFor(this, currentuser?.email)
-
+        if (currentuser != null) {
+            homeMonitorLiveData?.userEmail!!.postValue(currentuser?.email)
+            ntFireBaseRealtimeData?.connectFor(this, currentuser?.email)
+        }
+        else {
+           homeMonitorLiveData?.userEmail?.postValue("")
+            ntFireBaseRealtimeData?.disconnect()
+        }
 
     }
 

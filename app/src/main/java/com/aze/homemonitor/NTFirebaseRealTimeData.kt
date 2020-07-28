@@ -19,6 +19,14 @@ class NTFirebaseRealTimeData{
 
     private var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
 
+    private var dataStateChangeListener : ValueEventListener? = null
+    private var dataQuery : Query? = null
+
+    fun disconnect() {
+        if (dataStateChangeListener != null) {
+            dataQuery?.removeEventListener(dataStateChangeListener!!)
+        }
+    }
 
     fun connectFor(mainActivity: MainActivity, email: String?) {
         database = Firebase.database.reference
@@ -59,6 +67,9 @@ class NTFirebaseRealTimeData{
             }
         }
         query.addValueEventListener(stateChangelistener)
+        dataQuery = query; // save to disconnect later
+        dataStateChangeListener = stateChangelistener
+
 
         // Wire Up from UI to Database
         // 1. Alarm Status
