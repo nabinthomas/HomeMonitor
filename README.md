@@ -1,3 +1,3 @@
 # HomeMonitor
 
-CMPE235 Project 
+CMPE235 Project UI part
