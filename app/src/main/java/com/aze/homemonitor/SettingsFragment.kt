@@ -202,7 +202,7 @@ class SettingsFragment : Fragment() {
     }
 
     fun updateTemperatureRangeText(){
-        temperatureLabel?.setText("Humidity: Notify when < " + tempLowRange?.progress + " OR > " + tempHighRange?.progress)
+        temperatureLabel?.setText("Temperature: Notify when < " + tempLowRange?.progress + " OR > " + tempHighRange?.progress)
     }
 
 

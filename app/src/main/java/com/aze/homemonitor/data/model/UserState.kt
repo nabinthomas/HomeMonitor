@@ -8,4 +8,9 @@ class UserState {
     var alarmState : Boolean? = false
     var enableSoundSensor : Boolean? = false
     var enableMotionSensor : Boolean? = false
+    var humidityMinValue: Int? = 0
+    var humidityMaxValue: Int? = 100
+    var temperatureMinValue : Int? = 0
+    var temperatureMaxValue : Int? = 120
+
 }
