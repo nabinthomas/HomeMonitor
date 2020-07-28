@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.json.JSONObject
 
 
 class NTFirebaseMessagingService : FirebaseMessagingService() {
@@ -38,9 +39,23 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
             val intent = Intent()
             intent.action = "com.aze.homemonitor.STATUS_NOTIFICATION"
             intent.putExtra("HomeMonitorStatusUpdateJson", remoteMessage.notification!!.body.toString())
-            //sendBroadcast(intent)
+            // sendBroadcast(intent)
+
+
+            val statusJson = JSONObject(remoteMessage.notification!!.body.toString())
+
+            var temperature = statusJson.get("temperature")
+            var humidity = statusJson.get("humidity")
+            var lastMotionDetected = statusJson.get("lastMotionDetected")
+            var lastSoundDetected = statusJson.get("lastSoundDetected")
+
+            var notificationMessageBody = "Alert Received from Home Monitor\n "
+                    "Temperature = $temperature °F\n Humidity = $humidity %\n" +
+                    "Movement Detected @ $lastMotionDetected \n" +
+                            "Sound Detected @ $lastSoundDetected"
+
             val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
-            notificationManager.sendNotification("REceived Alert !!!!", applicationContext)
+            notificationManager.sendNotification(notificationMessageBody, applicationContext)
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
