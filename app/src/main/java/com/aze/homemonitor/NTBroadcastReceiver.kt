@@ -41,7 +41,7 @@ class NTBroadcastReceiver : BroadcastReceiver() {
                 homeMonitorLiveData?.lastMotionDetected?.postValue(lastMotionDetected as String?)
                 homeMonitorLiveData?.lastSoundDetected?.postValue(lastSoundDetected as String?)
 
-                viewModel?.sendNotification()
+                // viewModel?.sendNotification()
             }
         } catch (e: Exception) {
             e.printStackTrace()

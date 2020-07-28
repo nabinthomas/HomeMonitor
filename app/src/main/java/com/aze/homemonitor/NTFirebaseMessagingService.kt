@@ -41,18 +41,23 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
             intent.putExtra("HomeMonitorStatusUpdateJson", remoteMessage.notification!!.body.toString())
             // sendBroadcast(intent)
 
+            var notificationMessageBody : String = ""
+            try{
+                val statusJson = JSONObject(remoteMessage.notification!!.body.toString())
 
-            val statusJson = JSONObject(remoteMessage.notification!!.body.toString())
+                var temperature = statusJson.get("temperature")
+                var humidity = statusJson.get("humidity")
+                var lastMotionDetected = statusJson.get("lastMotionDetected")
+                var lastSoundDetected = statusJson.get("lastSoundDetected")
 
-            var temperature = statusJson.get("temperature")
-            var humidity = statusJson.get("humidity")
-            var lastMotionDetected = statusJson.get("lastMotionDetected")
-            var lastSoundDetected = statusJson.get("lastSoundDetected")
-
-            var notificationMessageBody = "Alert Received from Home Monitor\n "
-                    "Temperature = $temperature °F\n Humidity = $humidity %\n" +
-                    "Movement Detected @ $lastMotionDetected \n" +
-                            "Sound Detected @ $lastSoundDetected"
+                notificationMessageBody = "Alert Received from Home Monitor\n "
+                "Temperature = $temperature °F\n Humidity = $humidity %\n" +
+                        "Movement Detected @ $lastMotionDetected \n" +
+                        "Sound Detected @ $lastSoundDetected"
+            }
+            catch (e: Exception) {
+                notificationMessageBody = remoteMessage.notification!!.body.toString()
+            }
 
             val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
             notificationManager.sendNotification(notificationMessageBody, applicationContext)
@@ -87,7 +92,7 @@ class NTFirebaseMessagingService : FirebaseMessagingService() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.notification_channel_id)
+            val name = "NTFirebaseMessagingService"
             val descriptionText = "Notifications for Home Monitor"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel (name, name, importance).apply {
