@@ -120,6 +120,8 @@ class MainActivity : AppCompatActivity() {
             homeMonitorLiveData = ViewModelProviders.of(this)
                 .get(HomeMonitorLiveDataModel::class.java)
 
+            // these two data prints are only for debug. Not really used.
+
             homeMonitorLiveData!!.temperature.observe(this,
                 object: Observer<Int> {
                     override fun onChanged(t: Int) {
@@ -135,11 +137,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             )
+
+            homeMonitorLiveData!!.userEmail.observe(this,
+                object: Observer<String> {
+                    override fun onChanged(email: String) {
+                        Log.d(TAG, "Current User email " + email)
+                    }
+                }
+            )
+
+            homeMonitorLiveData!!.alarmStatus.observe(this,
+                object: Observer<Boolean> {
+                    override fun onChanged(status: Boolean) {
+                        Log.d(TAG, "Current Alarm Status " + status)
+                    }
+                }
+            )
         }
         else {
             homeMonitorLiveData?.temperature?.removeObservers(this)
 
         }
+
+        homeMonitorLiveData!!.userEmail.postValue(currentuser?.email)
 
     }
 

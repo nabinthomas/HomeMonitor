@@ -86,6 +86,21 @@ class StatusFragment : Fragment() {
             }
         )
 
+        homeMonitorLiveData!!.userEmail.observe(this,
+            object: Observer<String> {
+                override fun onChanged(email: String) {
+                    Log.d(MainActivity.TAG, " Fragment user Email " + email)
+                    registerForAlarmStatusChange(email)
+                }
+            }
+        )
+
+        alarmSwitch?.setOnClickListener {
+
+            Log.d(MainActivity.TAG, "Switch is + " + (it as Switch).isChecked)
+            this.homeMonitorLiveData?.alarmStatus?.postValue((it as Switch).isChecked)
+        }
+
         return rootview
     }
 
@@ -103,8 +118,14 @@ class StatusFragment : Fragment() {
 
     fun updateLastSoundDetected(time: String){
         soundDetectionTextView?.setText("Sound Detected @ "  + time)
+        alarmSwitch?.isChecked = !alarmSwitch?.isChecked!!
+
     }
     fun updateAlarmStatus(alarmStatus: Boolean){
         alarmSwitch?.isChecked = alarmStatus
+    }
+
+    fun registerForAlarmStatusChange(email: String) {
+
     }
 }
