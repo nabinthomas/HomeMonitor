@@ -155,6 +155,81 @@ class NTFirebaseRealTimeData{
                 }
             }
         )
+
+        // 4. Humidity Max Value
+        homeMonitorLiveData!!.humidityMaxValue.observe(mainActivity,
+            object: Observer<Int> {
+                override fun onChanged(value: Int) {
+                    Log.d(TAG, "Current Humidity Max " + value)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("humidityMaxValue").setValue(value)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
+
+        // 5. Temperature Min Value
+        homeMonitorLiveData!!.tempMinValue.observe(mainActivity,
+            object: Observer<Int> {
+                override fun onChanged(value: Int) {
+                    Log.d(TAG, "Current Temperature Min " + value)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("temperatureMinValue").setValue(value)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
+
+        // 4. Temperature Max Value
+        homeMonitorLiveData!!.tempMaxValue.observe(mainActivity,
+            object: Observer<Int> {
+                override fun onChanged(value: Int) {
+                    Log.d(TAG, "Current Temperature Max " + value)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("temperatureMaxValue").setValue(value)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
     }
 
 }

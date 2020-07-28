@@ -90,7 +90,7 @@ class SettingsFragment : Fragment() {
                 seek: SeekBar,
                 progress: Int, fromUser: Boolean
             ) {
-                homeMonitorLiveData!!.tempMinValue.postValue(tempLowRange?.progress)
+                homeMonitorLiveData!!.tempMaxValue.postValue(tempHighRange?.progress)
             }
             override fun onStartTrackingTouch(seek: SeekBar) {
 
