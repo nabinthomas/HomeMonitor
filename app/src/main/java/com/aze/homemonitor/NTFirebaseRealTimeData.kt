@@ -35,6 +35,8 @@ class NTFirebaseRealTimeData{
                     homeMonitorLiveData?.alarmStatus?.postValue((userState?.getValue<UserState>() as UserState).alarmState)
                     // 2. Sound Sensor
                     homeMonitorLiveData?.enableSoundSensor?.postValue((userState?.getValue<UserState>() as UserState).enableSoundSensor)
+                    // 3. Motion Sensor
+                    homeMonitorLiveData?.enableMotionSensor?.postValue((userState?.getValue<UserState>() as UserState).enableMotionSensor)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
@@ -82,6 +84,31 @@ class NTFirebaseRealTimeData{
                                 Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
                                 // set the new value
                                 database.child("users").child(userState.key!!).child("enableSoundSensor").setValue(status)
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                            // ...
+                        }
+                    }
+                    query.addListenerForSingleValueEvent(stateChangelistener)
+                }
+            }
+        )
+
+        // 3. Motion Sensor
+        homeMonitorLiveData!!.enableMotionSensor.observe(mainActivity,
+            object: Observer<Boolean> {
+                override fun onChanged(status: Boolean) {
+                    Log.d(TAG, "Current MotionSensor Status " + status)
+                    val query = database.child("users").orderByChild("email").equalTo(email).limitToFirst(1)
+                    val stateChangelistener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (userState in dataSnapshot.children) {
+                                Log.d(TAG, "While Writing new State : Data was  (key, value) = " + userState.key + "," + userState.getValue().toString())
+                                // set the new value
+                                database.child("users").child(userState.key!!).child("enableMotionSensor").setValue(status)
                             }
                         }
                         override fun onCancelled(databaseError: DatabaseError) {
