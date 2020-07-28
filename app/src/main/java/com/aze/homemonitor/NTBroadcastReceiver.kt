@@ -13,11 +13,15 @@ class NTBroadcastReceiver : BroadcastReceiver() {
     }
 
     private var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
-
+    private var viewModel : NetworkViewModel? = null
     fun init(mainActivity: MainActivity) {
 
         homeMonitorLiveData = ViewModelProviders.of(mainActivity)
             .get(HomeMonitorLiveDataModel::class.java)
+    }
+
+    fun setNetworkViewModel(viewModel: NetworkViewModel) {
+        this.viewModel = viewModel
     }
 
     override fun onReceive(context: Context?, intent: Intent) {
@@ -36,6 +40,8 @@ class NTBroadcastReceiver : BroadcastReceiver() {
                 homeMonitorLiveData?.humidity?.postValue(humidity as Int?)
                 homeMonitorLiveData?.lastMotionDetected?.postValue(lastMotionDetected as String?)
                 homeMonitorLiveData?.lastSoundDetected?.postValue(lastSoundDetected as String?)
+
+                viewModel?.sendNotification()
             }
         } catch (e: Exception) {
             e.printStackTrace()

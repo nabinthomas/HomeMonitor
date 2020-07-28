@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -21,6 +23,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.iid.FirebaseInstanceId
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     private var ntFireBaseRealtimeData: NTFirebaseRealTimeData ? = null
 
+    private val viewModel by viewModels<NetworkViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentuser = null
@@ -48,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         ntFireBaseRealtimeData = NTFirebaseRealTimeData()
 
         // setupFakeNotifications()
+
 
 
     }
@@ -71,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.logoutMenu -> {
-                logout()
+                // logout()
                 val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
                 notificationManager.sendNotification("Test Message on Logout", applicationContext)
                 true
@@ -129,6 +135,12 @@ class MainActivity : AppCompatActivity() {
 
     fun setUser(user: FirebaseUser?){
         currentuser = user
+
+        viewModel.createChannel(getString(R.string.notification_channel_id), getString(R.string.notification_channel_name))
+        viewModel.fetchTokens()
+        viewModel.createChannel(getString(R.string.fcm_notification_channel_ID), getString(R.string.fcm_notification_channel_name))
+        viewModel.subscribeTopic()
+
         if (user != null){
             homeMonitorLiveData = ViewModelProviders.of(this)
                 .get(HomeMonitorLiveDataModel::class.java)
