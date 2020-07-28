@@ -49,6 +49,7 @@ class SettingsFragment : Fragment() {
             homeMonitorLiveData = ViewModelProviders.of(it).get(HomeMonitorLiveDataModel::class.java)
         }
 
+        /// Wire up everything for temperature range for notification
         homeMonitorLiveData!!.tempMinValue.observe(this,
             object: Observer<Int> {
                 override fun onChanged(t: Int) {
@@ -67,15 +68,124 @@ class SettingsFragment : Fragment() {
             }
         )
 
+        tempLowRange?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seek: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
+                homeMonitorLiveData!!.tempMinValue.postValue(tempLowRange?.progress)
+            }
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+            }
+        })
+
+        tempHighRange?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seek: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
+                homeMonitorLiveData!!.tempMinValue.postValue(tempLowRange?.progress)
+            }
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+            }
+
+        })
+
+
+        // Now with Humidity Controls
+        homeMonitorLiveData!!.humidityMinValue.observe(this,
+            object: Observer<Int> {
+                override fun onChanged(t: Int) {
+                    Log.d(MainActivity.TAG, " Fragment humidity Min " + t)
+                    updateHumidityMin(t)
+                }
+            }
+        )
+
+        homeMonitorLiveData!!.humidityMaxValue.observe(this,
+            object: Observer<Int> {
+                override fun onChanged(t: Int) {
+                    Log.d(MainActivity.TAG, " Fragment Humidity Max " + t)
+                    updateHumidityMax(t)
+                }
+            }
+        )
+
+        humidityLowRange?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seek: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
+                homeMonitorLiveData!!.humidityMinValue.postValue(humidityLowRange?.progress)
+            }
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+            }
+        })
+
+        humidityHighRange?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seek: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
+                homeMonitorLiveData!!.humidityMaxValue.postValue(humidityHighRange?.progress)
+            }
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+            }
+
+        })
+        updateHumidityRangeText()
+        updateTemperatureRangeText()
+
         return rootview
     }
 
     fun updateTemperatureMin(minTemp : Int) {
         tempLowRange?.progress = minTemp
+        updateTemperatureRangeText()
     }
 
     fun updateTemperatureMax(maxTemp : Int) {
-        tempLowRange?.progress = maxTemp
+        tempHighRange?.progress = maxTemp
+        updateTemperatureRangeText()
+    }
+
+    fun updateTemperatureRangeText(){
+        temperatureLabel?.setText("Humidity: Notify when < " + tempLowRange?.progress + " OR > " + tempHighRange?.progress)
+    }
+
+
+    fun updateHumidityMin(minHumidity : Int) {
+        humidityLowRange?.progress = minHumidity
+        updateHumidityRangeText()
+    }
+
+    fun updateHumidityMax(maxHumidity : Int) {
+        humidityHighRange?.progress = maxHumidity
+        updateHumidityRangeText()
+    }
+
+    fun updateHumidityRangeText(){
+        humidityLabel?.setText("Humidity: Notify when < " + humidityLowRange?.progress + " OR > " + humidityHighRange?.progress)
     }
 
     companion object {
