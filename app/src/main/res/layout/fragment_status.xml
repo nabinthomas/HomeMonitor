@@ -88,16 +88,15 @@
             app:layout_constraintStart_toEndOf="@+id/soundDetectionTextView"
             app:layout_constraintTop_toTopOf="@+id/soundDetectionTextView" />
 
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="113dp"
-            android:layout_height="82dp"
-            android:src="?android:attr/alertDialogIcon"
+        <Switch
+            android:id="@+id/alarmSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alarm State"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/soundDetectionTextView"
-            app:layout_constraintVertical_bias="0.657" />
+            app:layout_constraintTop_toBottomOf="@+id/soundDetectionTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

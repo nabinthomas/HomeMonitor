@@ -9,6 +9,8 @@ class HomeMonitorLiveDataModel : ViewModel() {
     val humidity    = MutableLiveData<Int>()
     val lastMotionDetected = MutableLiveData<String>()
     val lastSoundDetected = MutableLiveData<String>()
+    val userEmail = MutableLiveData<String>()
+    val alarmStatus = MutableLiveData<Boolean>()
 }
 
 

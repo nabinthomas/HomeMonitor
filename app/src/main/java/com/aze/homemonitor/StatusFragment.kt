@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_status.*
 
 
 class StatusFragment : Fragment() {
@@ -17,6 +17,7 @@ class StatusFragment : Fragment() {
     var humidityTextView: TextView? = null
     var motionEventTextView : TextView? = null
     var soundDetectionTextView : TextView? = null
+    var alarmSwitch: Switch? = null
 
     var homeMonitorLiveData: HomeMonitorLiveDataModel? = null
 
@@ -35,6 +36,7 @@ class StatusFragment : Fragment() {
         humidityTextView = rootview.findViewById(R.id.humidityTextView)
         motionEventTextView = rootview.findViewById(R.id.motionEventTextView)
         soundDetectionTextView = rootview.findViewById(R.id.soundDetectionTextView)
+        alarmSwitch = rootview.findViewById(R.id.alarmSwitch)
 
         activity?.let {
             homeMonitorLiveData = ViewModelProviders.of(it).get(HomeMonitorLiveDataModel::class.java)
@@ -75,6 +77,15 @@ class StatusFragment : Fragment() {
             }
         )
 
+        homeMonitorLiveData!!.alarmStatus.observe(this,
+            object: Observer<Boolean> {
+                override fun onChanged(t: Boolean) {
+                    Log.d(MainActivity.TAG, " Fragment AlarmStatus " + t)
+                    updateAlarmStatus(t)
+                }
+            }
+        )
+
         return rootview
     }
 
@@ -93,5 +104,7 @@ class StatusFragment : Fragment() {
     fun updateLastSoundDetected(time: String){
         soundDetectionTextView?.setText("Sound Detected @ "  + time)
     }
-
+    fun updateAlarmStatus(alarmStatus: Boolean){
+        alarmSwitch?.isChecked = alarmStatus
+    }
 }
