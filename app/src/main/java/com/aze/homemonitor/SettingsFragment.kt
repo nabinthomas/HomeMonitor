@@ -53,7 +53,7 @@ class SettingsFragment : Fragment() {
         homeMonitorLiveData!!.tempMinValue.observe(this,
             object: Observer<Int> {
                 override fun onChanged(t: Int) {
-                    Log.d(MainActivity.TAG, " Fragment temperature Min " + t)
+                    Log.d(TAG, " Fragment temperature Min " + t)
                     updateTemperatureMin(t)
                 }
             }
@@ -62,7 +62,7 @@ class SettingsFragment : Fragment() {
         homeMonitorLiveData!!.tempMaxValue.observe(this,
             object: Observer<Int> {
                 override fun onChanged(t: Int) {
-                    Log.d(MainActivity.TAG, " Fragment temperature Max " + t)
+                    Log.d(TAG, " Fragment temperature Max " + t)
                     updateTemperatureMax(t)
                 }
             }
@@ -106,7 +106,7 @@ class SettingsFragment : Fragment() {
         homeMonitorLiveData!!.humidityMinValue.observe(this,
             object: Observer<Int> {
                 override fun onChanged(t: Int) {
-                    Log.d(MainActivity.TAG, " Fragment humidity Min " + t)
+                    Log.d(TAG, " Fragment humidity Min " + t)
                     updateHumidityMin(t)
                 }
             }
@@ -115,7 +115,7 @@ class SettingsFragment : Fragment() {
         homeMonitorLiveData!!.humidityMaxValue.observe(this,
             object: Observer<Int> {
                 override fun onChanged(t: Int) {
-                    Log.d(MainActivity.TAG, " Fragment Humidity Max " + t)
+                    Log.d(TAG, " Fragment Humidity Max " + t)
                     updateHumidityMax(t)
                 }
             }
@@ -153,6 +153,38 @@ class SettingsFragment : Fragment() {
             }
 
         })
+
+        // Now with motion sensor
+        homeMonitorLiveData!!.enableMotionSensor.observe(this,
+            object: Observer<Boolean> {
+                override fun onChanged(t: Boolean) {
+                    Log.d(TAG, " Fragment Motion Sensor " + t)
+                    updateMotionSensorStatus(t)
+                }
+            }
+        )
+        motionSensorSwitch?.setOnClickListener {
+
+            Log.d(MainActivity.TAG, "Switch is + " + (it as Switch).isChecked)
+            this.homeMonitorLiveData?.enableMotionSensor?.postValue((it as Switch).isChecked)
+        }
+
+        // Now with Sound Sensor
+        homeMonitorLiveData!!.enableSoundSensor.observe(this,
+            object: Observer<Boolean> {
+                override fun onChanged(t: Boolean) {
+                    Log.d(TAG, " Fragment Sound Sensor " + t)
+                    updateSoundSensorStatus(t)
+                }
+            }
+        )
+        soundSensorSwitch?.setOnClickListener {
+
+            Log.d(MainActivity.TAG, "Switch is + " + (it as Switch).isChecked)
+            this.homeMonitorLiveData?.enableSoundSensor?.postValue((it as Switch).isChecked)
+        }
+
+        // Init the defaults for now. Once live data is hooked up with Firebase, this is not needed
         updateHumidityRangeText()
         updateTemperatureRangeText()
 
@@ -186,6 +218,14 @@ class SettingsFragment : Fragment() {
 
     fun updateHumidityRangeText(){
         humidityLabel?.setText("Humidity: Notify when < " + humidityLowRange?.progress + " OR > " + humidityHighRange?.progress)
+    }
+
+    fun updateMotionSensorStatus(enabled : Boolean){
+        motionSensorSwitch?.isChecked = enabled
+    }
+
+    fun updateSoundSensorStatus(enabled : Boolean){
+        soundSensorSwitch?.isChecked = enabled
     }
 
     companion object {
